@@ -37,21 +37,34 @@ if __name__ == '__main__':
     if not IS_BACKTEST:
         broker = store.getbroker()
         cerebro.setbroker(broker)
-        data = DataFactory(dataname=SYMBOL1,
+        data1 = DataFactory(dataname=SYMBOL1,
                             historical=False,
                             timeframe=bt.TimeFrame.Ticks,
                             backfill_start=False,
                             data_feed='sip')
 
-        cerebro.adddata(data)
+        data2 = DataFactory(dataname=SYMBOL2,
+                            historical=False,
+                            timeframe=bt.TimeFrame.Ticks,
+                            backfill_start=False,
+                            data_feed='sip')
+
+        cerebro.adddata(data1)
+        cerebro.adddata(data2)
         
     else:
-        data = DataFactory(dataname=SYMBOL1,
+        data1 = DataFactory(dataname=SYMBOL1,
                             historical=True,
                             fromdate=datetime(2021, 1, 1),
                             timeframe=bt.TimeFrame.Days,
                             data_feed='sip')
-        cerebro.adddata(data)
+        data2 = DataFactory(dataname=SYMBOL2,
+                            historical=True,
+                            fromdate=datetime(2021, 1, 1),
+                            timeframe=bt.TimeFrame.Days,
+                            data_feed='sip')
+        cerebro.adddata(data1)
+        cerebro.adddata(data2)
 
     if IS_BACKTEST:
         # backtrader broker set initial simulated cash
