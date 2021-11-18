@@ -13,7 +13,7 @@ You have 3 options:
  - paper trade (IS_BACKTEST=False, IS_LIVE=False)
  - live trade (IS_BACKTEST=False, IS_LIVE=True)
 """
-IS_BACKTEST = False
+IS_BACKTEST = True
 IS_LIVE = False
 symbol = "AAPL"
 

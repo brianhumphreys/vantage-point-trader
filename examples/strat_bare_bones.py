@@ -1,12 +1,12 @@
 import alpaca_backtrader_api
 import backtrader as bt
 from datetime import datetime
+import tools.inject_keys as keys
 
-import config
 
-ALPACA_API_KEY = config.ALPACA_API_KEY
-ALPACA_SECRET_KEY = config.ALPACA_API_SECRET
-ALPACA_PAPER = True
+IS_BACKTEST = True
+IS_LIVE = False
+ALPACA_API_KEY, ALPACA_SECRET_KEY = keys.inject_keys(IS_BACKTEST, IS_LIVE)
 
 
 class SmaCross(bt.SignalStrategy):
@@ -22,10 +22,10 @@ cerebro.addstrategy(SmaCross)
 store = alpaca_backtrader_api.AlpacaStore(
     key_id=ALPACA_API_KEY,
     secret_key=ALPACA_SECRET_KEY,
-    paper=ALPACA_PAPER
+    paper=not IS_LIVE
 )
 
-if not ALPACA_PAPER:
+if IS_LIVE:
   broker = store.getbroker()  # or just alpaca_backtrader_api.AlpacaBroker()
   cerebro.setbroker(broker)
 

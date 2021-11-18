@@ -1,11 +1,9 @@
 import alpaca_backtrader_api
 import backtrader as bt
 from datetime import datetime
-
+import tools.inject_keys as keys
 
 # Your credentials here
-ALPACA_API_KEY = "<key_id>"
-ALPACA_SECRET_KEY = "<secret_key>"
 """
 You have 3 options:
  - backtest (IS_BACKTEST=True, IS_LIVE=False)
@@ -14,6 +12,11 @@ You have 3 options:
 """
 IS_BACKTEST = True
 IS_LIVE = False
+ALPACA_API_KEY, ALPACA_SECRET_KEY = keys.inject_keys(IS_BACKTEST, IS_LIVE)
+
+print(ALPACA_API_KEY)
+print(ALPACA_SECRET_KEY)
+
 SYMBOL1 = 'AAPL'
 SYMBOL2 = 'GOOG'
 
@@ -130,7 +133,7 @@ if __name__ == '__main__':
         # backtrader broker set initial simulated cash
         cerebro.broker.setcash(100000.0)
 
-    # print('Starting Portfolio Value: {}'.format(cerebro.broker.getvalue()))
+    print('Starting Portfolio Value: {}'.format(cerebro.broker.getvalue()))
     cerebro.run()
     print('Final Portfolio Value: {}'.format(cerebro.broker.getvalue()))
     cerebro.plot()
