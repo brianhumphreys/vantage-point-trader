@@ -1,17 +1,33 @@
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
 import alpaca_backtrader_api
+from models.VantagePrediction import VantagePrediction
 import tools.inject_keys as keys
+import tools.etfconfirmed as vantage
 
 import argparse
 import datetime
 
 import backtrader as bt
 
+year = 2021
+month = 10
+day = 29 
+
+toyear = 2021
+tomonth = 10
+today = 30
+
+filename = 'IntelliScan-{}-{}-{}'.format(year, month, '0{}'.format(day) if day < 10 else day)
+tickers = ['SPY', 'GOOG', 'AAPL', 'TSLA']
+
+# todo: if not back testing, then make sure that 
 IS_BACKTEST = True
 IS_LIVE = False
 ALPACA_API_KEY, ALPACA_SECRET_KEY = keys.inject_keys(IS_BACKTEST, IS_LIVE)
 
+print(ALPACA_API_KEY)
+print(ALPACA_SECRET_KEY)
 
 class TestSizer(bt.Sizer):
     params = dict(stake=1)
@@ -27,13 +43,9 @@ class TestSizer(bt.Sizer):
 
 class St(bt.Strategy):
     params = dict(
-        enter=[1, 3, 4],  # data ids are 1 based
-        hold=[7, 10, 15],  # data ids are 1 based
-        usebracket=True,
-        rawbracket=True,
         pentry=0.015,
         plimits=0.03,
-        valid=10,
+        predictions=None,
     )
 
     def notify_order(self, order):
@@ -47,6 +59,8 @@ class St(bt.Strategy):
 
         whichord = ['main', 'stop', 'limit', 'close']
         if not order.alive():  # not alive - nullify
+            # print(order.data)
+            # print(self.o)
             dorders = self.o[order.data]
             idx = dorders.index(order)
             dorders[idx] = None
@@ -61,58 +75,64 @@ class St(bt.Strategy):
 
     def next(self):
         for i, d in enumerate(self.datas):
-            print('NEXT')
-            print(i)
-            print(d)
-            dt, dn = self.datetime.date(), d._name
+            date, time, dn = self.datetime.date(), self.datetime.time(), d._name
             pos = self.getposition(d).size
-            print('{} {} Position {}'.format(dt, dn, pos))
+            # print('{}T{} {} Position {}'.format(date, time, dn, pos))
 
             if not pos and not self.o.get(d, None):  # no market / no orders
-                if dt.weekday() == self.p.enter[i]:
-                    if not self.p.usebracket:
-                        self.o[d] = [self.buy(data=d)]
-                        print('{} {} Buy {}'.format(dt, dn, self.o[d][0].ref))
+                # print(d._name)
+                vantagePrediction: VantagePrediction = self.p.predictions[d._name]
+                if(d.close[0] < vantagePrediction.limitbuy and not vantagePrediction.bought):
+                    vantagePrediction.setBought()
+                    self.o[d] = [self.buy(data=d, size=5)]
+                if(d.close[0] < vantagePrediction.plow and pos > 0):
+                    self.o[d] = [self.sell(data=d, size=pos)]
+                # print(self.p.predictions)
+            #     print(self.p.enter)
+            #     if dt.weekday() == self.p.enter[i]:
+            #         if not self.p.usebracket:
+            #             self.o[d] = [self.buy(data=d)]
+            #             print('{} {} Buy {}'.format(dt, dn, self.o[d][0].ref))
 
-                    else:
-                        p = d.close[0] * (1.0 - self.p.pentry)
-                        pstp = p * (1.0 - self.p.plimits)
-                        plmt = p * (1.0 + self.p.plimits)
-                        valid = datetime.timedelta(self.p.valid)
+            #         else:
+            #             p = d.close[0] * (1.0 - self.p.pentry)
+            #             pstp = p * (1.0 - self.p.plimits)
+            #             plmt = p * (1.0 + self.p.plimits)
+            #             valid = datetime.timedelta(self.p.valid)
 
-                        if self.p.rawbracket:
-                            o1 = self.buy(data=d, exectype=bt.Order.Limit,
-                                          price=p, valid=valid, transmit=False)
+            #             if self.p.rawbracket:
+            #                 o1 = self.buy(data=d, exectype=bt.Order.Limit,
+            #                               price=p, valid=valid, transmit=False)
 
-                            o2 = self.sell(data=d, exectype=bt.Order.Stop,
-                                           price=pstp, size=o1.size,
-                                           transmit=False, parent=o1)
+            #                 o2 = self.sell(data=d, exectype=bt.Order.Stop,
+            #                                price=pstp, size=o1.size,
+            #                                transmit=False, parent=o1)
 
-                            o3 = self.sell(data=d, exectype=bt.Order.Limit,
-                                           price=plmt, size=o1.size,
-                                           transmit=True, parent=o1)
+            #                 o3 = self.sell(data=d, exectype=bt.Order.Limit,
+            #                                price=plmt, size=o1.size,
+            #                                transmit=True, parent=o1)
 
-                            self.o[d] = [o1, o2, o3]
+            #                 self.o[d] = [o1, o2, o3]
 
-                        else:
-                            self.o[d] = self.buy_bracket(
-                                data=d, price=p, stopprice=pstp,
-                                limitprice=plmt, oargs=dict(valid=valid))
+            #             else:
+            #                 self.o[d] = self.buy_bracket(
+            #                     data=d, price=p, stopprice=pstp,
+            #                     limitprice=plmt, oargs=dict(valid=valid))
 
-                        print('{} {} Main {} Stp {} Lmt {}'.format(
-                            dt, dn, *(x.ref for x in self.o[d])))
+            #             print('{} {} Main {} Stp {} Lmt {}'.format(
+            #                 dt, dn, *(x.ref for x in self.o[d])))
 
-                    self.holding[d] = 0
+            #         self.holding[d] = 0
 
-            elif pos:  # exiting can also happen after a number of days
-                self.holding[d] += 1
-                if self.holding[d] >= self.p.hold[i]:
-                    o = self.close(data=d)
-                    self.o[d].append(o)  # manual order to list of orders
-                    print('{} {} Manual Close {}'.format(dt, dn, o.ref))
-                    if self.p.usebracket:
-                        self.cancel(self.o[d][1])  # cancel stop side
-                        print('{} {} Cancel {}'.format(dt, dn, self.o[d][1]))
+            # elif pos:  # exiting can also happen after a number of days
+            #     self.holding[d] += 1
+            #     if self.holding[d] >= self.p.hold[i]:
+            #         o = self.close(data=d)
+            #         self.o[d].append(o)  # manual order to list of orders
+            #         print('{} {} Manual Close {}'.format(dt, dn, o.ref))
+            #         if self.p.usebracket:
+            #             self.cancel(self.o[d][1])  # cancel stop side
+            #             print('{} {} Cancel {}'.format(dt, dn, self.o[d][1]))
 
 
 def runstrat(args=None):
@@ -135,51 +155,64 @@ def runstrat(args=None):
         secret_key=ALPACA_SECRET_KEY,
         paper=not IS_LIVE,
     )
+
+    # assemble daily picks
+    print('Using Vantage Predictions from: {}'.format(filename))
+    predictions, tickers = vantage.daily_picks(filename)
+    
     DataFactory = store.getdata
     # Data feed
     # data0 = bt.feeds.YahooFinanceCSVData(dataname=args.data0, **kwargs)
-    data0 = DataFactory(
-            dataname='AAPL',
-            timeframe=bt.TimeFrame.Minutes,
-            fromdate=datetime.datetime(2021, 11, 1),
-            todate=datetime.datetime(2021, 11, 2),
-            historical=True)
-    cerebro.adddata(data0, name='d0')
+    for i in range(len(tickers)):
+        ticker = tickers[i]
+        if IS_BACKTEST:
+            data0 = DataFactory(dataname=ticker,
+                                historical=True,
+                                fromdate=datetime.datetime(year, month, day),
+                                todate=datetime.datetime(toyear, tomonth, today),
+                                timeframe=bt.TimeFrame.Minutes,
+                                data_feed='sip')
+        else:
+            data0 = DataFactory(dataname=ticker,
+                                historical=False,
+                                timeframe=bt.TimeFrame.Ticks,
+                                backfill_start=False,
+                                data_feed='sip'
+                                )
+            # or just alpaca_backtrader_api.AlpacaBroker()
+            broker = store.getbroker()
+            cerebro.setbroker(broker)
 
-    print(args)
-    # data1 = bt.feeds.YahooFinanceCSVData(dataname=args.data1, **kwargs)
-    data1 = DataFactory(
-            dataname='GOOG',
-            timeframe=bt.TimeFrame.Minutes,
-            fromdate=datetime.datetime(2021, 11, 1),
-            todate=datetime.datetime(2021, 11, 2),
-            historical=True)
-    data1.plotinfo.plotmaster = data0
-    cerebro.adddata(data1, name='d1')
-
-    # data2 = bt.feeds.YahooFinanceCSVData(dataname=args.data2, **kwargs)
-    data2 = DataFactory(
-            dataname='TSLA',
-            timeframe=bt.TimeFrame.Minutes,
-            fromdate=datetime.datetime(2021, 11, 1),
-            todate=datetime.datetime(2021, 11, 2),
-            historical=True)
-    data2.plotinfo.plotmaster = data0
-    cerebro.adddata(data2, name='d2')
+        # ticker = tickers[i]
+        # data0 = DataFactory(
+        #         dataname=ticker,
+        #         timeframe=bt.TimeFrame.Minutes,
+        #         fromdate=datetime.datetime(year, month, day),
+        #         todate=datetime.datetime(toyear, tomonth, today),
+        #         historical=True)
+        if i != 0:
+            data0.plotinfo.plotmaster = cerebro.datas[0]
+        cerebro.adddata(data0, name=ticker)
 
     # Broker
     cerebro.broker = bt.brokers.BackBroker(**eval('dict(' + args.broker + ')'))
-    cerebro.broker.setcommission(commission=0.001)
+    # cerebro.broker.setcommission(commission=0.001)
 
     # Sizer
     # cerebro.addsizer(bt.sizers.FixedSize, **eval('dict(' + args.sizer + ')'))
     cerebro.addsizer(TestSizer, **eval('dict(' + args.sizer + ')'))
 
     # Strategy
-    cerebro.addstrategy(St, **eval('dict(' + args.strat + ')'))
+    cerebro.addstrategy(St, predictions=predictions)
+    # cerebro.addstrategy(St, **eval('dict(' + args.strat + ')'))
+
+    # Set Initial Amount
+    cerebro.broker.setcash(100000)
 
     # Execute
     cerebro.run(**eval('dict(' + args.cerebro + ')'))
+
+    print('Final Portfolio Value: {}'.format(cerebro.broker.getvalue()))
 
     if args.plot:  # Plot if requested to
         cerebro.plot(**eval('dict(' + args.plot + ')'))
@@ -230,3 +263,5 @@ def parse_args(pargs=None):
 
 if __name__ == '__main__':
     runstrat()
+
+    # python3 trade/multi_cli.py --plot volume=False
