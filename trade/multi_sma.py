@@ -135,8 +135,8 @@ class SmaCross1(bt.Strategy):
 
             sma1 = bt.ind.SMA(d, period=self.p.pfast)
             sma2 = bt.ind.SMA(d, period=self.p.pslow)
-            self.crossovers[d._name] = StochRSI(sma1, sma2)
-            self.crossovers[d._name] = bt.ind.CrosiesOver(sma1, sma2)
+            # self.crossovers[d._name] = StochRSI(sma1, sma2)
+            self.crossovers[d._name] = bt.ind.CrossOver(sma1, sma2)
 
             
 
