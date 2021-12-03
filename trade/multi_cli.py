@@ -1,6 +1,7 @@
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
 import alpaca_backtrader_api
+from alpaca_trade_api.rest import REST
 from models.VantagePrediction import VantagePrediction
 import tools.inject_keys as keys
 import tools.etfconfirmed as vantage
@@ -11,23 +12,21 @@ import datetime
 import backtrader as bt
 
 year = 2021
-month = 10
-day = 29 
+month = 11
+day = 22
 
 toyear = 2021
-tomonth = 10
-today = 30
+tomonth = 11
+today = 23
 
+# todo: tke out ticker one at a time to see which one is the trouble child
 filename = 'IntelliScan-{}-{}-{}'.format(year, month, '0{}'.format(day) if day < 10 else day)
 tickers = ['SPY', 'GOOG', 'AAPL', 'TSLA']
 
 # todo: if not back testing, then make sure that 
-IS_BACKTEST = True
+IS_BACKTEST = False
 IS_LIVE = False
-ALPACA_API_KEY, ALPACA_SECRET_KEY = keys.inject_keys(IS_BACKTEST, IS_LIVE)
-
-print(ALPACA_API_KEY)
-print(ALPACA_SECRET_KEY)
+ALPACA_API_KEY, ALPACA_SECRET_KEY = keys.inject_keys(is_backtest=IS_BACKTEST, is_live=IS_LIVE)
 
 class TestSizer(bt.Sizer):
     params = dict(stake=1)
@@ -46,6 +45,7 @@ class St(bt.Strategy):
         pentry=0.015,
         plimits=0.03,
         predictions=None,
+        price=0
     )
 
     def notify_order(self, order):
@@ -69,7 +69,7 @@ class St(bt.Strategy):
             if all(x is None for x in dorders):
                 dorders[:] = []  # empty list - New orders allowed
 
-    def __init__(self):
+    def __init__(self, predictions):
         self.o = dict()  # orders per data (main, stop, limit, manual-close)
         self.holding = dict()  # holding periods per data
 
@@ -80,12 +80,15 @@ class St(bt.Strategy):
             # print('{}T{} {} Position {}'.format(date, time, dn, pos))
 
             if not pos and not self.o.get(d, None):  # no market / no orders
+
                 # print(d._name)
                 vantagePrediction: VantagePrediction = self.p.predictions[d._name]
+
                 if(d.close[0] < vantagePrediction.limitbuy and not vantagePrediction.bought):
                     vantagePrediction.setBought()
-                    self.o[d] = [self.buy(data=d, size=5)]
-                if(d.close[0] < vantagePrediction.plow and pos > 0):
+                    # self.o[d] = [self.buy(data=d, size=5)]
+                    self.o[d] = [self.buy(data=d, price=self.p.price)]
+                if((d.close[0] < vantagePrediction.plow or d.close[0] < vantagePrediction.onepercentdrop) and pos > 0):
                     self.o[d] = [self.sell(data=d, size=pos)]
                 # print(self.p.predictions)
             #     print(self.p.enter)
@@ -156,10 +159,30 @@ def runstrat(args=None):
         paper=not IS_LIVE,
     )
 
+    
+
+    print('==================================================================')
+    # nasdaq_assets = [a for a in active_assets if a.exchange == 'NASDAQ']
+    # for i in nasdaq_assets:
+    #     print(i)
+    print('==================================================================')
     # assemble daily picks
     print('Using Vantage Predictions from: {}'.format(filename))
+    # predictions, tickers = None, [
+    #     'AAPL',
+    #     'TXN',
+    #     'ANF',
+    #     'CVS',
+    #     'KSS',
+    #     'PSA',
+    #     'WNS',
+    #     # 'AUOTY',
+    #     'CRUS',
+    #     'EBAY',
+    # ]
     predictions, tickers = vantage.daily_picks(filename)
     
+
     DataFactory = store.getdata
     # Data feed
     # data0 = bt.feeds.YahooFinanceCSVData(dataname=args.data0, **kwargs)
@@ -202,12 +225,16 @@ def runstrat(args=None):
     # cerebro.addsizer(bt.sizers.FixedSize, **eval('dict(' + args.sizer + ')'))
     cerebro.addsizer(TestSizer, **eval('dict(' + args.sizer + ')'))
 
+    
+
     # Strategy
-    cerebro.addstrategy(St, predictions=predictions)
+    price_per_asset = cerebro.broker.getvalue() / len(tickers)
+    print('Price Invested Per Asset: {}'.format(price_per_asset))
+    cerebro.addstrategy(St, predictions=predictions, price=price_per_asset)
     # cerebro.addstrategy(St, **eval('dict(' + args.strat + ')'))
 
     # Set Initial Amount
-    cerebro.broker.setcash(100000)
+    # cerebro.broker.setcash(100000)
 
     # Execute
     cerebro.run(**eval('dict(' + args.cerebro + ')'))

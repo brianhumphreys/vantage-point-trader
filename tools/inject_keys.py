@@ -11,7 +11,7 @@ def inject_keys(is_backtest: bool, is_live: bool):
 #   - live trade (IS_BACKTEST=False, IS_LIVE=True)
     if(is_backtest and not is_live):
         print('RUNNING WITH BACKTESTING')
-        return (ALPACA_API_KEY, ALPACA_SECRET_KEY)
+        return (ALPACA_PAPER_API_KEY, ALPACA_PAPER_SECRET_KEY)
     if(not is_backtest and not is_live):
         print('RUNNING WITH PAPER TRADE')
         return (ALPACA_PAPER_API_KEY, ALPACA_PAPER_SECRET_KEY)

@@ -10,7 +10,7 @@ You have 3 options:
  - paper trade (IS_BACKTEST=False, IS_LIVE=False)
  - live trade (IS_BACKTEST=False, IS_LIVE=True)
 """
-IS_BACKTEST = True
+IS_BACKTEST = False
 IS_LIVE = False
 ALPACA_API_KEY, ALPACA_SECRET_KEY = keys.inject_keys(IS_BACKTEST, IS_LIVE)
 
