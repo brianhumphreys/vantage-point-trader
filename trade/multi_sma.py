@@ -10,6 +10,7 @@ from alpaca_trade_api.rest import REST
 from models.VantagePrediction import VantagePrediction
 import tools.inject_keys as keys
 import tools.etfconfirmed as vantage
+from indicators.stochastic_rsi import StochRSI
 
 from tools.bcolors import bcolors
 
@@ -128,25 +129,16 @@ class SmaCross1(bt.Strategy):
         self.crossovers = dict()
         self.live_bars = False
 
-        # print('INIT: {}'.format())
-        # print('predictions')
-        # print(predictions)
         self.p.predictions = predictions
-        # print(self.p.predictions)
+
         for i, d in enumerate(self.datas):
 
-            # vantagePrediction: VantagePrediction = self.p.predictions[d._name]
-            # if not self.positionsbyname[vantagePrediction.symbol].size:
-            # print(bcolors.OKGREEN + '{} BUY'.format(d._name) + bcolors.ENDC)
-            # self.o[d] = [self.buy(data=d, size=5)] # enter long
-            # print('SMAs')
-            # print(self.p.pfast)
-            # print(self.p.pslow)
             sma1 = bt.ind.SMA(d, period=self.p.pfast)
             sma2 = bt.ind.SMA(d, period=self.p.pslow)
-            self.crossovers[d._name] = bt.ind.CrossOver(sma1, sma2)
-            # print('AHHHHHHH')
-            pprint(vars(self.crossovers[d._name].lines.crossover))
+            self.crossovers[d._name] = StochRSI(sma1, sma2)
+            self.crossovers[d._name] = bt.ind.CrosiesOver(sma1, sma2)
+
+            
 
     def next(self):
         if not self.live_bars and not IS_BACKTEST:
