@@ -33,7 +33,6 @@ class ConnorsRSI(bt.Indicator):
     params = dict(prsi=3, pstreak=2, prank=100)
 
     def __init__(self, prsi, pstreak, prank):
-        print('woooooooop: {}'.format(self.p.prsi))
         self.p.prsi = prsi
         self.p.pstreak = pstreak
         self.p.prank = prank

@@ -40,3 +40,8 @@ conner-rsi,"prsi=3, pstreak=2, prank=30, overbought=90.0, oversold=10.0",0.0
 conner-rsi,"prsi=4, pstreak=2, prank=30, overbought=90.0, oversold=10.0",0.0
 conner-rsi,"prsi=3, pstreak=3, prank=30, overbought=90.0, oversold=10.0",0.0
 conner-rsi,"prsi=3, pstreak=3, prank=25, overbought=90.0, oversold=10.0",0.0
+conner-rsi,"prsi=3, pstreak=3, prank=30, overbought=80.0, oversold=20.0",0.0
+conner-rsi,"prsi=3, pstreak=3, prank=30, overbought=70.0, oversold=30.0",0.0
+conner-rsi,"prsi=4, pstreak=3, prank=25, overbought=90.0, oversold=10.0",0.0
+conner-rsi,"prsi=4, pstreak=3, prank=25, overbought=80.0, oversold=20.0",0.0
+conner-rsi,"prsi=4, pstreak=3, prank=25, overbought=70.0, oversold=30.0",0.0
