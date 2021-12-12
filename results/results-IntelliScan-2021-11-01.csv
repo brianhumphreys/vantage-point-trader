@@ -1,0 +1,48 @@
+stoch-rsi,"period=11, overbought=0.1, oversold=0.9",-0.04188510000001407
+stoch-rsi,"period=9, overbought=0.1, oversold=0.9",-0.044418099999951666
+stoch-rsi,"period=11, overbought=0.2, oversold=0.8",0.033805399999939256
+stoch-rsi,"period=9, overbought=0.2, oversold=0.8",-0.03792500000006112
+stoch-rsi,"period=11, overbought=0.3, oversold=0.7",-0.05292760000002454
+stoch-rsi,"period=9, overbought=0.3, oversold=0.7",-0.01897679999996035
+cheat-on-open-stoch-rsi,"period=11, overbought=0.1, oversold=0.9",0.025899300000048243
+cheat-on-open-stoch-rsi,"period=9, overbought=0.1, oversold=0.9",0.011909999999945286
+cheat-on-open-stoch-rsi,"period=11, overbought=0.2, oversold=0.8",0.025899300000048243
+cheat-on-open-stoch-rsi,"period=9, overbought=0.2, oversold=0.8",0.011909999999945286
+cheat-on-open-stoch-rsi,"period=11, overbought=0.3, oversold=0.7",0.025899300000048243
+cheat-on-open-stoch-rsi,"period=9, overbought=0.3, oversold=0.7",0.011909999999945286
+sma-cross,"pfast=1, pslow=2",0.8140809000000881
+sma-cross,"pfast=2, pslow=3",0.8022384000000019
+sma-cross,"pfast=3, pslow=4",0.6304489999999933
+sma-cross,"pfast=4, pslow=5",0.5062732999998698
+sma-cross,"pfast=5, pslow=6",0.18134149999992222
+sma-cross,"pfast=1, pslow=3",0.5984172000000254
+sma-cross,"pfast=2, pslow=4",0.5771963000000105
+sma-cross,"pfast=4, pslow=6",0.389413000000015
+sma-cross,"pfast=5, pslow=7",0.23922769999995944
+cheat-on-open-sma-cross,"pfast=1, pslow=2",0.8121880999999994
+cheat-on-open-sma-cross,"pfast=2, pslow=3",0.7989808000000485
+cheat-on-open-sma-cross,"pfast=3, pslow=4",0.6268778999999486
+cheat-on-open-sma-cross,"pfast=4, pslow=5",0.5032982999999658
+cheat-on-open-sma-cross,"pfast=5, pslow=6",0.17949609999997485
+cheat-on-open-sma-cross,"pfast=1, pslow=3",0.5947213000000774
+cheat-on-open-sma-cross,"pfast=2, pslow=4",0.5755856000000494
+cheat-on-open-sma-cross,"pfast=4, pslow=6",0.39006139999994777
+cheat-on-open-sma-cross,"pfast=5, pslow=7",0.23759079999996174
+cheat-on-open-conner-rsi,"prsi=3, pstreak=2, prank=30, overbought=90.0, oversold=10.0",0.0
+cheat-on-open-conner-rsi,"prsi=4, pstreak=2, prank=30, overbought=90.0, oversold=10.0",0.0
+cheat-on-open-conner-rsi,"prsi=3, pstreak=3, prank=30, overbought=90.0, oversold=10.0",0.0
+cheat-on-open-conner-rsi,"prsi=3, pstreak=3, prank=25, overbought=90.0, oversold=10.0",0.0
+cheat-on-open-conner-rsi,"prsi=3, pstreak=3, prank=30, overbought=80.0, oversold=20.0",-0.08080739999999059
+cheat-on-open-conner-rsi,"prsi=3, pstreak=3, prank=30, overbought=70.0, oversold=30.0",0.006830000000001746
+cheat-on-open-conner-rsi,"prsi=4, pstreak=3, prank=25, overbought=90.0, oversold=10.0",0.0
+cheat-on-open-conner-rsi,"prsi=4, pstreak=3, prank=25, overbought=80.0, oversold=20.0",-0.08097620000001916
+cheat-on-open-conner-rsi,"prsi=4, pstreak=3, prank=25, overbought=70.0, oversold=30.0",0.07906499999998777
+conner-rsi,"prsi=3, pstreak=2, prank=30, overbought=90.0, oversold=10.0",0.0
+conner-rsi,"prsi=4, pstreak=2, prank=30, overbought=90.0, oversold=10.0",0.0
+conner-rsi,"prsi=3, pstreak=3, prank=30, overbought=90.0, oversold=10.0",0.0
+conner-rsi,"prsi=3, pstreak=3, prank=25, overbought=90.0, oversold=10.0",0.0
+conner-rsi,"prsi=3, pstreak=3, prank=30, overbought=80.0, oversold=20.0",-0.08056359999999403
+conner-rsi,"prsi=3, pstreak=3, prank=30, overbought=70.0, oversold=30.0",-0.02029000000000815
+conner-rsi,"prsi=4, pstreak=3, prank=25, overbought=90.0, oversold=10.0",0.0
+conner-rsi,"prsi=4, pstreak=3, prank=25, overbought=80.0, oversold=20.0",-0.08049360000001615
+conner-rsi,"prsi=4, pstreak=3, prank=25, overbought=70.0, oversold=30.0",0.07619499999996333

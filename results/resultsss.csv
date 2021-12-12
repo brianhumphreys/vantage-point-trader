@@ -1,0 +1,6 @@
+stoch-rsi,"period=11, overbought=0.1, oversold=0.9",0.0
+stoch-rsi,"period=11, overbought=0.2, oversold=0.8",0.0
+stoch-rsi,"period=11, overbought=0.3, oversold=0.7",0.0
+cheat-on-open-stoch-rsi,"period=11, overbought=0.1, oversold=0.9",0.0
+cheat-on-open-stoch-rsi,"period=11, overbought=0.2, oversold=0.8",0.0
+cheat-on-open-stoch-rsi,"period=11, overbought=0.3, oversold=0.7",0.0

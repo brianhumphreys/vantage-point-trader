@@ -1,0 +1,42 @@
+stoch-rsi,"period=11, overbought=0.1, oversold=0.9",FAIL
+stoch-rsi,"period=9, overbought=0.1, oversold=0.9",0.0
+stoch-rsi,"period=11, overbought=0.2, oversold=0.8",FAIL
+stoch-rsi,"period=9, overbought=0.2, oversold=0.8",0.0
+stoch-rsi,"period=11, overbought=0.3, oversold=0.7",FAIL
+stoch-rsi,"period=9, overbought=0.3, oversold=0.7",0.0
+cheat-on-open-stoch-rsi,"period=11, overbought=0.1, oversold=0.9",FAIL
+cheat-on-open-stoch-rsi,"period=9, overbought=0.1, oversold=0.9",0.0
+cheat-on-open-stoch-rsi,"period=11, overbought=0.2, oversold=0.8",FAIL
+cheat-on-open-stoch-rsi,"period=9, overbought=0.2, oversold=0.8",0.0
+cheat-on-open-stoch-rsi,"period=11, overbought=0.3, oversold=0.7",FAIL
+cheat-on-open-stoch-rsi,"period=9, overbought=0.3, oversold=0.7",0.0
+sma-cross,"pfast=1, pslow=2",FAIL
+sma-cross,"pfast=2, pslow=3",0.0
+sma-cross,"pfast=3, pslow=4",0.0
+sma-cross,"pfast=4, pslow=5",0.0
+sma-cross,"pfast=5, pslow=6",0.0
+sma-cross,"pfast=1, pslow=3",0.0
+sma-cross,"pfast=2, pslow=4",0.0
+sma-cross,"pfast=4, pslow=6",0.0
+sma-cross,"pfast=5, pslow=7",0.0
+cheat-on-open-sma-cross,"pfast=1, pslow=2",FAIL
+cheat-on-open-sma-cross,"pfast=2, pslow=3",0.0
+cheat-on-open-sma-cross,"pfast=3, pslow=4",0.0
+cheat-on-open-sma-cross,"pfast=4, pslow=5",0.0
+cheat-on-open-sma-cross,"pfast=5, pslow=6",0.0
+cheat-on-open-sma-cross,"pfast=1, pslow=3",0.0
+cheat-on-open-sma-cross,"pfast=2, pslow=4",0.0
+cheat-on-open-sma-cross,"pfast=4, pslow=6",0.0
+cheat-on-open-sma-cross,"pfast=5, pslow=7",0.0
+cheat-on-open-conner-rsi,"prsi=3, pstreak=2, prank=30, overbought=90.0, oversold=10.0",0.0
+cheat-on-open-conner-rsi,"prsi=4, pstreak=2, prank=30, overbought=90.0, oversold=10.0",0.0
+cheat-on-open-conner-rsi,"prsi=3, pstreak=3, prank=30, overbought=90.0, oversold=10.0",0.0
+cheat-on-open-conner-rsi,"prsi=3, pstreak=3, prank=25, overbought=90.0, oversold=10.0",0.0
+cheat-on-open-conner-rsi,"prsi=3, pstreak=3, prank=30, overbought=70.0, oversold=30.0",0.0
+cheat-on-open-conner-rsi,"prsi=4, pstreak=3, prank=25, overbought=90.0, oversold=10.0",0.0
+cheat-on-open-conner-rsi,"prsi=4, pstreak=3, prank=25, overbought=80.0, oversold=20.0",0.0
+cheat-on-open-conner-rsi,"prsi=4, pstreak=3, prank=25, overbought=70.0, oversold=30.0",0.0
+conner-rsi,"prsi=3, pstreak=2, prank=30, overbought=90.0, oversold=10.0",0.0
+conner-rsi,"prsi=4, pstreak=2, prank=30, overbought=90.0, oversold=10.0",0.0
+conner-rsi,"prsi=3, pstreak=3, prank=30, overbought=90.0, oversold=10.0",0.0
+conner-rsi,"prsi=3, pstreak=3, prank=25, overbought=90.0, oversold=10.0",0.0

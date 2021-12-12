@@ -1,0 +1,42 @@
+stoch-rsi,"period=11, overbought=0.1, oversold=0.9",0.0
+stoch-rsi,"period=11, overbought=0.2, oversold=0.8",0.0
+stoch-rsi,"period=11, overbought=0.3, oversold=0.7",0.0
+cheat-on-open-stoch-rsi,"period=11, overbought=0.1, oversold=0.9",0.0
+cheat-on-open-stoch-rsi,"period=11, overbought=0.2, oversold=0.8",0.0
+cheat-on-open-stoch-rsi,"period=11, overbought=0.3, oversold=0.7",0.0
+sma-cross,"pfast=1, pslow=2",0.10194839999999386
+sma-cross,"pfast=2, pslow=3",-0.04615160000005562
+sma-cross,"pfast=3, pslow=4",-0.04761850000001141
+sma-cross,"pfast=4, pslow=5",0.0
+sma-cross,"pfast=5, pslow=6",0.0
+sma-cross,"pfast=1, pslow=3",-0.004220600000000558
+sma-cross,"pfast=2, pslow=4",-0.05539019999999436
+sma-cross,"pfast=4, pslow=6",0.0
+sma-cross,"pfast=5, pslow=7",0.0
+cheat-on-open-sma-cross,"pfast=1, pslow=2",0.09814249999987078
+cheat-on-open-sma-cross,"pfast=2, pslow=3",-0.04637960000007297
+cheat-on-open-sma-cross,"pfast=3, pslow=4",-0.04799740000002203
+cheat-on-open-sma-cross,"pfast=4, pslow=5",0.0
+cheat-on-open-sma-cross,"pfast=5, pslow=6",0.0
+cheat-on-open-sma-cross,"pfast=1, pslow=3",-0.004989800000039395
+cheat-on-open-sma-cross,"pfast=2, pslow=4",-0.05510100000002421
+cheat-on-open-sma-cross,"pfast=4, pslow=6",0.0
+cheat-on-open-sma-cross,"pfast=5, pslow=7",0.0
+cheat-on-open-conner-rsi,"prsi=3, pstreak=2, prank=30, overbought=90.0, oversold=10.0",0.0
+cheat-on-open-conner-rsi,"prsi=4, pstreak=2, prank=30, overbought=90.0, oversold=10.0",0.0
+cheat-on-open-conner-rsi,"prsi=3, pstreak=3, prank=30, overbought=90.0, oversold=10.0",0.0
+cheat-on-open-conner-rsi,"prsi=3, pstreak=3, prank=25, overbought=90.0, oversold=10.0",0.0
+cheat-on-open-conner-rsi,"prsi=3, pstreak=3, prank=30, overbought=80.0, oversold=20.0",0.0
+cheat-on-open-conner-rsi,"prsi=3, pstreak=3, prank=30, overbought=70.0, oversold=30.0",0.0
+cheat-on-open-conner-rsi,"prsi=4, pstreak=3, prank=25, overbought=90.0, oversold=10.0",0.0
+cheat-on-open-conner-rsi,"prsi=4, pstreak=3, prank=25, overbought=80.0, oversold=20.0",0.0
+cheat-on-open-conner-rsi,"prsi=4, pstreak=3, prank=25, overbought=70.0, oversold=30.0",0.0
+conner-rsi,"prsi=3, pstreak=2, prank=30, overbought=90.0, oversold=10.0",0.0
+conner-rsi,"prsi=4, pstreak=2, prank=30, overbought=90.0, oversold=10.0",0.0
+conner-rsi,"prsi=3, pstreak=3, prank=30, overbought=90.0, oversold=10.0",0.0
+conner-rsi,"prsi=3, pstreak=3, prank=25, overbought=90.0, oversold=10.0",0.0
+conner-rsi,"prsi=3, pstreak=3, prank=30, overbought=80.0, oversold=20.0",0.0
+conner-rsi,"prsi=3, pstreak=3, prank=30, overbought=70.0, oversold=30.0",0.0
+conner-rsi,"prsi=4, pstreak=3, prank=25, overbought=90.0, oversold=10.0",0.0
+conner-rsi,"prsi=4, pstreak=3, prank=25, overbought=80.0, oversold=20.0",0.0
+conner-rsi,"prsi=4, pstreak=3, prank=25, overbought=70.0, oversold=30.0",0.0

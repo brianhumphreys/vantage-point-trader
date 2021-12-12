@@ -10,19 +10,18 @@ class Streak(bt.ind.PeriodN):
     curstreak = 0
 
     def next(self):
-        print(1)
         d0, d1 = self.data[0], self.data[-1]
-        print(2)
+        # print(2)
 
         if d0 > d1:
-            print(3)
+        #     print(3)
             self.l.streak[0] = self.curstreak = max(1, self.curstreak + 1)
         elif d0 < d1:
-            print(4)
+        #     print(4)
             self.l.streak[0] = self.curstreak = min(-1, self.curstreak - 1)
         else:
             self.l.streak[0] = self.curstreak = 0
-        print(6)
+        # print(6)
 
 
 class ConnorsRSI(bt.Indicator):
@@ -33,14 +32,19 @@ class ConnorsRSI(bt.Indicator):
     lines = ('crsi',)
     params = dict(prsi=3, pstreak=2, prank=100)
 
-    def __init__(self):
+    def __init__(self, prsi, pstreak, prank):
+        print('woooooooop: {}'.format(self.p.prsi))
+        self.p.prsi = prsi
+        self.p.pstreak = pstreak
+        self.p.prank = prank
         # Calculate the components
-        rsi = bt.ind.RSI(self.data, period=self.p.prsi)
+        rsi = bt.ind.RSI_Safe(self.data, period=self.p.prsi)
 
         streak = Streak(self.data)
-        rsi_streak = bt.ind.RSI(streak, period=self.p.pstreak)
+        rsi_streak = bt.ind.RSI_Safe(streak, period=self.p.pstreak)
 
         prank = bt.ind.PercentRank(self.data, period=self.p.prank)
 
-        # Apply the formula
-        self.l.crsi = (rsi + rsi_streak + prank) / 3.0
+        # # Apply the formula
+        self.l.crsi = (prank + rsi + rsi_streak) / 3.0
+        # self.l.crsi = (rsi + rsi_streak + prank) / 3.0
